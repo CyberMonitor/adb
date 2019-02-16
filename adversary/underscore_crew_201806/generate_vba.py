@@ -150,8 +150,4 @@ End Function
 
     playbook.append({'add_vba_module': vba_template})
 
-    playbook.append({'set_save_format': 'docm'})
-
-    playbook.append({'change_extension_after_save': 'doc'})
-
     return playbook

