@@ -3,7 +3,7 @@ Adaptive Document Builder
 
 ## Runs on
 
-Python 3 on Windows
+Python 3 on Windows</br>
 COM is used to interface with an installed and configured Office product
 
 ## Pre-requisites
