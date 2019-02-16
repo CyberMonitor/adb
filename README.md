@@ -18,9 +18,11 @@ COM is used to interface with an installed and configured Office product
 
 * VBA is distinct for every document (level of distinction depends on the adversary document builder selected)
 * Random author based on easily updated/replaced name lists (sets local system registry keys before each document build)
+* Random file name based on the most commonly seen file names in malicious document campaigns
 * Multiple file formats (doc, docm, XML flat OPC)
 * Multiple file extensions (.doc, .docm, .rtf)
 * Supports multiple payloads
+* Functions for building and randomizing VBA are in a shared library for use across multiple adversary builders
 * Modular design and architecture for easy addition of more adversary builders
 * debug mode that outputs audit trail of document creation details including VBA contents
 
