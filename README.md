@@ -30,7 +30,8 @@ COM is used to interface with an installed and configured Office product
 
 ### List available adversary emulation builders
 
-```>python adb.py -l
+```
+>python adb.py -l
 sample_with_network_test
 underscore_crew_201806
 ```
