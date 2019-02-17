@@ -19,7 +19,7 @@ def build_files(adversary, out_dir, count=1, filetype="doc", extension="doc", de
     filetype_and_extension = utils.reconcile_extension_and_format(extension=extension, filetype=filetype)
 
     while c < count:
-        playbook = generate_vba.generate(random.choice(payloads.payload_list))
+        playbook = generate_vba.generate(random.choice(payloads.get_payloads()))
         if 'change_extension_after_save' in filetype_and_extension:
             playbook.append({'change_extension_after_save': filetype_and_extension['change_extension_after_save']})
         playbook.append({'set_save_format': filetype_and_extension['set_save_format']})

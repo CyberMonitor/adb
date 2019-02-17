@@ -3,6 +3,7 @@ from pathlib import Path
 import os
 
 def build_doc(template, outfile, actions):
+
     wdApp = win32com.client.Dispatch("Word.Application")
     wdDoc = wdApp.Documents.Open(template)
 

