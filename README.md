@@ -1,18 +1,7 @@
 # adb
 Adaptive Document Builder
 
-## Runs on
-
-Python 3 on Windows</br>
-COM is used to interface with an installed and configured Office product
-
-## Pre-requisites
-
-- Office installed
-- Office opened once to create first-time-run registry entries
-- Office must "Trust access to the VBA project object model" (must be checked)</br>
-    https://support.office.com/en-us/article/enable-or-disable-macros-in-office-files-12b036fd-d140-4e74-b45e-16fed1a7e5c6
-- Python modules in requirements.txt installed
+A framework for generating simulated malicious office documents.
 
 ## Features
 
@@ -25,6 +14,19 @@ COM is used to interface with an installed and configured Office product
 * Functions for building and randomizing VBA are in a shared library for use across multiple adversary builders
 * Modular design and architecture for easy addition of more adversary builders
 * debug mode that outputs audit trail of document creation details including VBA contents
+
+## Runs on
+
+Python 3 on Windows</br>
+COM is used to interface with an installed and configured Office product
+
+## Pre-requisites
+
+- Office installed
+- Office opened once to create first-time-run registry entries
+- Office must "Trust access to the VBA project object model" (must be checked)</br>
+    https://support.office.com/en-us/article/enable-or-disable-macros-in-office-files-12b036fd-d140-4e74-b45e-16fed1a7e5c6
+- Python modules in requirements.txt installed
 
 ## Usage
 
