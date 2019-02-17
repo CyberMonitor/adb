@@ -16,7 +16,7 @@ def get_args(arg_list):
                             help="-e --extension doc | docm | rtf")
         parser.add_argument('-c', '--count', dest="count", default=1, help="-c --count {# of docs to create}", required=False)
         parser.add_argument('-l', '--listadversaries', dest="listadversaries", action='store_true', help="-l --listadversaries : list available adversaries and exits")
-        parser.add_argument('-o', '--outdir', dest="outdir", default=None, help="-o --outdir {path\\to\\outdir}")
+        parser.add_argument('-o', '--outdir', dest="outdir", default="Default", help="-o --outdir {path\\to\\outdir}")
         parser.add_argument('-d', '--debug', dest="debug", default=False, action='store_true', help="-d --debug : print debug statements and playbook for each document")
         args = parser.parse_args(arg_list)
     except KeyboardInterrupt:
@@ -36,6 +36,10 @@ if args.listadversaries == True:
             print(item)
 
 if not args.listadversaries and args.adversary and args.outdir:
+
+    if os.path.isdir(args.outdir) == False:
+        print("\n[!] outdir is either not defined or is not a valid folder path\n")
+        raise ValueError
 
     build.build_files(
         adversary=args.adversary,
