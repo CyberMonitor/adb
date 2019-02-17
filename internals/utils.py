@@ -44,6 +44,10 @@ def reconcile_extension_and_format(extension, filetype):
         return {'set_save_format': 'doc',
                 'set_save_extension': 'doc',
                 'change_extension_after_save': 'rtf'}
+    elif extension == "rtf" and filetype == "flatxml":
+        return {'set_save_format': 'flatxml',
+                'set_save_extension': 'doc',
+                'change_extension_after_save': 'rtf'}
     else:
         print("\n[!] Combination of format {} and extension {} is invalid.\n".format(extension, filetype))
         raise ValueError
