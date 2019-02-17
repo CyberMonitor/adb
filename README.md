@@ -28,6 +28,10 @@ COM is used to interface with an installed and configured Office product
     https://support.office.com/en-us/article/enable-or-disable-macros-in-office-files-12b036fd-d140-4e74-b45e-16fed1a7e5c6
 - Python modules in requirements.txt installed
 
+### Run this on a virtual machine!
+ - Disable Windows Defender or add an exclusion for the adb files (before cloning) and your output directory or they might get cleaned
+ - Registry entries will be changed when setting the author of documents, so don't run this with any production Office software
+
 ## Usage
 
 ### List available adversary emulation builders
